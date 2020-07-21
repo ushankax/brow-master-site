@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+{% endblock %}
+
+{% block content %}
+
+  <!-- Форма записи на брови -->
+  <div class="mt-5">
+    <h4 class="text-center">Записаться на прием</h4>
+  </div>
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong><center>{{ error|escape }}</center></strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong><center>{{ error|escape }}</center></strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    <div class="d-flex justify-content-center">
+      <div class="row col col-5 pb-3 pt-3 rounded">
+
+        {% csrf_token %}
+        <div class="col-6">
+            {{ form.name|as_crispy_field }}
+        </div>
+
+        <div class="col-6">
+            {{ form.phone|as_crispy_field }}
+        </div>
+
+        <div class="col-6">
+            {{ form.media }}
+            {{ form.date|as_crispy_field }}
+        </div>
+
+        <div class="col-6">
+            {{ form.time|as_crispy_field }}
+        </div>
+
+        <div class="col-6">
+            {{ form.address|as_crispy_field }}
+        </div>
+
+        <div class="col-6">
+            {{ form.work|as_crispy_field }}
+        </div>
+
+        <div class="col-12">
+            {{ form.comment|as_crispy_field }}
+        </div>
+
+        <div class="col-12">
+            <button type="submit" value="Submit" class="btn btn-success">Записаться</button>
+        </div>
+      </div>
+    </div>
+</form>
+
+<script>
+    $('.datepicker').flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "d-m-Y",
+        time_24hr: true,
+        allowInput: true,
+        locale: "ru",
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+ html, body {
+   overflow-x: hidden;
+   }
+   text {
+    color: #303030;
+   }
+   body {
+    background-color: #ffffff;
+   }
+   h1 {
+    font-size: 400%;
+    color: #303030;
+   }
+   h3 {
+    font-size: 250%;
+    color: #303030;
+   }
+   p {
+   font-size: 100%;
+   color: #303030;
+   }
+   .about {
+   color: #303030;
+   }

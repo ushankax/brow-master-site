@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <!-- Приветствие и картинка -->
+    <div>
+        <div class="d-flex justify-content-center row">
+            <div class="d-flex justify-content-center align-items-center min-vh-100 pb-5">
+                <div class="col-4">
+                    <h1>Привет!</h1>
+                    <h3>Меня зовут Мару</h3>
+                    <p>Приглашаю в своё царство, где вы сможете насладиться спокойствием от городской суеты,
+                        горячем чаем, и, конечно же, волшебными бровями)</p>
+                    <p>Каждые полгода прохожу обучение у лучших специалистов.</p>
+                    <a href="{% url 'booking' %}" class="btn btn-outline-primary btn-lg " role="button">Записаться</a>
+                </div>
+
+                <div class="d-flex justify-content-end col-5">
+                    <img src="https://i.ibb.co/zVjz78Q/2020-07-08-19-37-33.jpg" style="border-radius: 10px;" width="426" height="533">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

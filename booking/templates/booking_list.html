@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="mt-5">
+    <center><h2>Список записей на прием</h2>
+</div>
+
+<center><p><a role="button" class="btn btn-outline-dark mt-4" href="{% url 'booking-create' %}">Создать новую запись</a></p></center>
+
+<form method="get">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="col-auto">
+            {{ filter.form.date|as_crispy_field }}
+            </div>
+
+            <div class="col-auto">
+            {{ filter.form.phone|as_crispy_field }}
+            </div>
+        </div>
+        <center><button type="submit" class="btn btn-outline-primary mb-3">Поиск</button></center>
+    </div>
+</form>
+
+{% if filter.qs %}
+
+<div class="container">
+    {% for booking in page_obj %}
+            <div class="d-flex justify-content-center">
+                <div class="col col-7 mt-3 pt-3 pb-3 border border-dark rounded bg bg-light">
+                    <h5>{{ booking.get_work_display }}</h5>
+                    <hr>
+
+                    <div class="mb-1"><b>Имя:</b> {{ booking.name }}</div>
+                    <div class="mb-1"><b>Номер:</b> {{ booking.phone }}</div>
+                    <div class="mb-1"><b>Адрес:</b> {{ booking.get_address_display }}</div>
+                    <div class="mb-1"><b>Дата:</b> {{ booking.date }} в {{ booking.get_time_display }}</div>
+
+                    {% if booking.comment %}
+                    <div class="mb-1"><b>Комментарий:</b> {{ booking.comment }}</div>
+                    {% endif %}
+
+                    <hr>
+                    <div class="btn-group border border-dark rounded" role="group" aria-label="Basic example">
+                      <a href="{% url 'booking-delete' booking.pk %}" role="button" class="btn btn-secondary">Удалить</a>
+                      <a role="button" class="btn btn-secondary" href="{% url 'booking-edit' booking.pk %}">Редактировать</a>
+                    </div>
+
+                    <div class="btn-group border border-dark rounded" role="group" aria-label="Basic example">
+                      <a role="button" class="btn btn-info" href="{% url 'bonus' booking.pk %}">Посетил</a>
+                      {% if booking.client %}
+                        <a role="button" class="btn btn-info" href="{% url 'bonus-spend' booking.pk %}">Потратить бонусы</a>
+                      {% endif %}
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+</div>
+
+{% else %}
+
+<h4 class="text-center mt-5">Записи на прием отсутствуют</h4>
+
+{% endif %}
+
+<div class="d-flex justify-content-center mt-3">
+        <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; Начало</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+        {% endif %}
+
+            <li class="page-item disabled"><a class="page-link">{{ page_obj.number }}</a></li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.last_page_number }} &raquo;</a></li>
+        {% endif %}
+        </ul>
+</div>
+
+{% endblock %}
