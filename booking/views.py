@@ -43,11 +43,10 @@ class BookingDelete(PermissionRequiredMixin, DeleteView):
 @login_required
 @permission_required('auth.can_add_permission')
 def booking_list(request):
-    booking_list = Booking.objects.filter(status='p').order_by('date')
-    booking_filter = BookingFilter(request.GET, queryset=booking_list)
-    booking_list = booking_filter.qs
+    queryset = Booking.objects.filter(status='p').order_by('date')
+    booking_filter = BookingFilter(request.GET, queryset=queryset)
 
-    paginator = Paginator(booking_list, 5)
+    paginator = Paginator(booking_filter.qs, 5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
@@ -59,11 +58,10 @@ def booking_list(request):
 @login_required
 @permission_required('auth.can_add_permission')
 def done_booking_list(request):
-    done_booking_list = Booking.objects.filter(status='d').order_by('date')
-    booking_filter = BookingFilter(request.GET, queryset=done_booking_list)
-    done_booking_list = booking_filter.qs
+    queryset = Booking.objects.filter(status='d').order_by('date')
+    booking_filter = BookingFilter(request.GET, queryset=queryset)
 
-    paginator = Paginator(done_booking_list, 5)
+    paginator = Paginator(booking_filter.qs, 5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
