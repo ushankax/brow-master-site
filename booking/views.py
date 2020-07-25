@@ -9,7 +9,7 @@ from django.views.generic import DeleteView, CreateView, UpdateView, View, Redir
 from .filters import BookingFilter
 from .models import Booking
 from .forms import BookingForm, BonusSpendForm
-from .telegram import telegram_bot_sendtext
+from .tasks import telegram_bot_sendtext_task
 
 
 # Главная страница, на которой есть форма с записью на брови
@@ -161,7 +161,7 @@ class BookingView(View):
                 localize(new_booking.date), new_booking.get_time_display(),
                 new_booking.get_address_display(), new_booking.name,
                 new_booking.phone)
-            telegram_bot_sendtext(text)
+            telegram_bot_sendtext_task.delay(text)
             return redirect(reverse('index'))
         return self.render(request)
 
